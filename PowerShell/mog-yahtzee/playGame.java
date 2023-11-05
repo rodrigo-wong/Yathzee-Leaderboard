@@ -34,7 +34,7 @@ public class playGame {
         double elapsedTime = System.currentTimeMillis() - startTime;
 
         System.out.printf(  "User: %s\t\tIterations: %d\t\t\tMin Score: %d\t\tMax Score: %d\t\tAverage Score: %.2f\t\t" +
-                            "Games>150: %.2f%%\t\tGames>200: %.2f%%\t\tTime: %.2fs\n",YahtzeeStrategy.username,
+                            "Games>150: %.2f%%\t\tGames>200: %.2f%%\t\tTime: %.2fs\n","s4",
                             iterationsRan, min, max, (double)scores/ iterationsRan, (double)over150/ iterationsRan * 100,
                             (double)over200/ iterationsRan * 100, elapsedTime / 1000 );
     }

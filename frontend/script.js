@@ -1,15 +1,25 @@
 var data = [];
 const colors = [
-  "red",
-  "blue",
-  "green",
-  "orange",
-  "purple",
-  "cyan",
-  "magenta",
-  "yellow",
-  "teal",
-  "lime",
+  'rgba(255, 0, 0, 0.7)',
+  'rgba(0, 255, 0, 0.7)',
+  'rgba(0, 0, 255, 0.7)',
+  'rgba(255, 255, 0, 0.7)',
+  'rgba(255, 0, 255, 0.7)',
+  'rgba(0, 255, 255, 0.7)',
+  'rgba(128, 0, 0, 0.7)',
+  'rgba(0, 128, 0, 0.7)',
+  'rgba(0, 0, 128, 0.7)',
+  'rgba(128, 128, 0, 0.7)',
+  'rgba(128, 0, 128, 0.7)',
+  'rgba(0, 128, 128, 0.7)',
+  'rgba(64, 0, 0, 0.7)',
+  'rgba(0, 64, 0, 0.7)',
+  'rgba(0, 0, 64, 0.7)',
+  'rgba(64, 64, 0, 0.7)',
+  'rgba(64, 0, 64, 0.7)',
+  'rgba(0, 64, 64, 0.7)',
+  'rgba(192, 192, 192, 0.7)',
+  'rgba(128, 128, 128, 0.7)',
 ];
 const legendsElement = document.getElementById("legends");
 
@@ -125,7 +135,7 @@ const initializeChart = async () => {
             label: "Score",
             data: scores,
             backgroundColor: semesterColors,
-            borderColor: semesterColors,
+            borderColor: "black",
             borderWidth: 1,
           },
         ],
@@ -144,13 +154,13 @@ const initializeChart = async () => {
                 const dataIndex = context.dataIndex;
                 const score = scores[dataIndex];
                 const lastdate = lastDates[dataIndex];
-                return `Score: ${score} | Updated at: ${lastdate}`;
+                return ["Score: " + score, "Updated at: " + lastdate];
               },
             },
           },
           legend: {
-            display: false
-          }
+            display: false,
+          },
         },
       },
     });
