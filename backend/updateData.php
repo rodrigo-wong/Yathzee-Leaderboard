@@ -2,13 +2,24 @@
 
     include 'db.php';
 
-    $student = [];
+    $headers = getallheaders();
 
+    if(empty($headers["API_KEY"])) {
+        echo "Missing API KEY";
+        die();
+    }
+    
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
+        $hashedPassword = '$2y$10$DUcoQHMuikvydlMmsuyac.DBbeYhT.aNxlyCHWC0EqfiApaE0cwW.';
+        if(!password_verify($headers["API_KEY"], $hashedPassword)) {
+            echo "Invalid API KEY";
+            die();
+        }
         $data = file_get_contents("php://input");
-
         $putData = json_decode($data, true);
+
+        $student = [];
 
         if (empty($putData['publicName']) || empty($putData['score'])) {
             echo "Missing information";

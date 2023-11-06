@@ -20,7 +20,7 @@ if ($LASTEXITCODE -ne 0) {
     Write-Host "Compile successful, scoring bot."
 
     # Run the Java program and outputs it to the shell
-    $lastLine = $null 
+    $lastLine = $null
 
     java playGame | ForEach-Object {
         $_  # Output the line
@@ -39,13 +39,18 @@ if ($LASTEXITCODE -ne 0) {
     $url = "http://localhost:8888/csep-project1/backend/updateData.php"
 
     # Specify the data to send in the request
+    $headers = @{
+        'Content-Type' = 'application/json'
+        'API_KEY' = 'SteveBot@2023'
+    }
+
     $body = @{
         "publicName" = $publicName
         "score" = $score
     } | ConvertTo-Json
 
     # Send the PUT request
-    $response = Invoke-RestMethod -Uri $url -Method Put -Body $body -ContentType "application/json"
+    $response = Invoke-RestMethod -Uri $url -Method Put -Body $body -Headers $headers
 
     # Display the response
     $response
