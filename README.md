@@ -5,4 +5,4 @@ Database structure (students table):
 
 Issue in the playgame.java file in the mog-yahtzee directory:
   - Line 37: Yahtzee.username was missing. Therefore, the code was modified to a hardcoded username.
-    - Comments were added in Line 37 explaining the issue.
+  - Comments were added in Line 37 explaining the issue.
