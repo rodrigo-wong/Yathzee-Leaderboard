@@ -43,15 +43,12 @@ else {
         $dataKeyValuePairs[$key] = $value
     }
 
-    # $publicName = ($data[0] -split ':')[1].Trim() # Trim and store user's name
-    # $score = ($data[4] -split ":")[1].Trim() # Trim and store average score
-
     # Send PUT cURL command to update student's new score
     $url = "http://localhost:8888/csep-project1/backend/updateData.php"
 
     $headers = @{
          'Content-Type' = 'application/json'
-         'API_KEY' = 'SteveBot@2023' # Store this in an environment variable ?
+         'API_KEY' = 'BotSteve@2023' # Store this in an environment variable ?
     }
 
     $body = @{

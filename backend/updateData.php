@@ -11,7 +11,7 @@
 
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
-        $hashedPassword = '$2y$10$DUcoQHMuikvydlMmsuyac.DBbeYhT.aNxlyCHWC0EqfiApaE0cwW.'; // Store this in an environment variable ?
+        $hashedPassword = '$2y$10$zaPWM9gUFwLRuU.qDVpw3ugl3QWHATz/SZc6jMIIlstjw/JPJnOQu'; // Store this in an environment variable ?
         if(!password_verify($headers["API_KEY"], $hashedPassword)) {
             echo "Invalid API KEY";
             die();

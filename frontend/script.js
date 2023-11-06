@@ -54,20 +54,25 @@ function addSemesterOption(data) {
 
 function addLegends(semesters) {
   for (i = 0; i < semesters.length; i++) {
+    // Create a new div that will contain the assigned color for the label
     var coloredBox = document.createElement("div");
-    coloredBox.style.width = "20px"; // Set the width of the box
-    coloredBox.style.height = "20px"; // Set the height of the box
-    coloredBox.style.backgroundColor = colors[i]; // Set the background color
-    coloredBox.style.display = "inline-block"; // Display the box inline
+    coloredBox.style.width = "20px"; 
+    coloredBox.style.height = "20px"; 
+    coloredBox.style.backgroundColor = colors[i]; 
+    coloredBox.style.border = "1px solid black";
+    coloredBox.style.display = "inline-block";
 
     // Create a new span element for the label
     var labelSpan = document.createElement("span");
-    labelSpan.textContent = semesters[i]; // Set the label text
+    labelSpan.textContent = semesters[i]; 
+    labelSpan.style.margin = "3px";
 
     // Create a container div to hold the box and label
     var containerDiv = document.createElement("div");
-    containerDiv.appendChild(coloredBox); // Add the colored box to the container
-    containerDiv.appendChild(labelSpan); // Add the label to the container
+    containerDiv.style.display = "flex"; 
+    containerDiv.style.alignItems = "center"; 
+    containerDiv.appendChild(coloredBox); 
+    containerDiv.appendChild(labelSpan); 
 
     // Add the container to the page
     legendsElement.appendChild(containerDiv);
@@ -146,6 +151,12 @@ const initializeChart = async () => {
           x: {
             beginAtZero: true,
           },
+          y: {
+            beginAtZero: true,
+            ticks: {
+                autoSkip: false
+            }
+          }
         },
         plugins: {
           tooltip: {
