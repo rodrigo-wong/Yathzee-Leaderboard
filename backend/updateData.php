@@ -8,10 +8,10 @@
         echo "Missing API KEY";
         die();
     }
-    
+
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
-        $hashedPassword = '$2y$10$DUcoQHMuikvydlMmsuyac.DBbeYhT.aNxlyCHWC0EqfiApaE0cwW.';
+        $hashedPassword = '$2y$10$DUcoQHMuikvydlMmsuyac.DBbeYhT.aNxlyCHWC0EqfiApaE0cwW.'; // Store this in an environment variable ?
         if(!password_verify($headers["API_KEY"], $hashedPassword)) {
             echo "Invalid API KEY";
             die();
