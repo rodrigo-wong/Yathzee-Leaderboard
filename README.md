@@ -1,8 +1,3 @@
 # CSEP-Project1 (Yahtzee)
 
-Database structure (students table):
-![image](https://github.com/rodrigo-wong/CSEP-Project1/assets/125037662/bb719962-bc43-4d65-b174-88711af7a886)
-
-Issue in the playgame.java file in the mog-yahtzee directory:
-  - Line 37: Yahtzee.username was missing. Therefore, the code was modified to a hardcoded username.
-  - Comments were added in Line 37 explaining the issue.
+A comprehensive system under the guidance of Professor Steven Adams for the Mathematics of Gaming course, automating assignment grading and providing prompt feedback to students. The project integrates with GitHub Classroom to pull student repositories, executes their submissions against custom test bots for a poker tournament, and evaluates performance based on pre-defined criteria. Results are logged in a dynamic leaderboard, fostering a competitive yet educational environment. This tool streamlines grading, ensures fair assessments, and enhances interactivity in a gamified academic setting.
