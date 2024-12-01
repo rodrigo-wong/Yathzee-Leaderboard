@@ -1,26 +1,28 @@
 var data = [];
 const colors = [
-  'rgba(255, 0, 0, 0.7)',
-  'rgba(0, 255, 0, 0.7)',
-  'rgba(0, 0, 255, 0.7)',
-  'rgba(255, 255, 0, 0.7)',
-  'rgba(255, 0, 255, 0.7)',
-  'rgba(0, 255, 255, 0.7)',
-  'rgba(128, 0, 0, 0.7)',
-  'rgba(0, 128, 0, 0.7)',
-  'rgba(0, 0, 128, 0.7)',
-  'rgba(128, 128, 0, 0.7)',
-  'rgba(128, 0, 128, 0.7)',
-  'rgba(0, 128, 128, 0.7)',
-  'rgba(64, 0, 0, 0.7)',
-  'rgba(0, 64, 0, 0.7)',
-  'rgba(0, 0, 64, 0.7)',
-  'rgba(64, 64, 0, 0.7)',
-  'rgba(64, 0, 64, 0.7)',
-  'rgba(0, 64, 64, 0.7)',
-  'rgba(192, 192, 192, 0.7)',
-  'rgba(128, 128, 128, 0.7)',
+  'rgba(244, 67, 54, 0.7)',    // Soft Red
+  'rgba(76, 175, 80, 0.7)',    // Soft Green
+  'rgba(33, 150, 243, 0.7)',   // Soft Blue
+  'rgba(255, 193, 7, 0.7)',    // Soft Yellow
+  'rgba(156, 39, 176, 0.7)',   // Soft Purple
+  'rgba(0, 188, 212, 0.7)',    // Soft Cyan
+  'rgba(121, 85, 72, 0.7)',    // Soft Brown
+  'rgba(158, 158, 158, 0.7)',  // Soft Gray
+  'rgba(96, 125, 139, 0.7)',   // Cool Gray
+  'rgba(255, 87, 34, 0.7)',    // Soft Orange
+  'rgba(205, 220, 57, 0.7)',   // Lime Green
+  'rgba(255, 235, 59, 0.7)',   // Soft Lemon Yellow
+  'rgba(103, 58, 183, 0.7)',   // Soft Indigo
+  'rgba(63, 81, 181, 0.7)',    // Soft Royal Blue
+  'rgba(3, 169, 244, 0.7)',    // Light Sky Blue
+  'rgba(0, 150, 136, 0.7)',    // Teal
+  'rgba(255, 64, 129, 0.7)',   // Soft Pink
+  'rgba(239, 108, 0, 0.7)',    // Deep Orange
+  'rgba(191, 54, 12, 0.7)',    // Reddish Brown
+  'rgba(124, 179, 66, 0.7)',   // Olive Green
 ];
+
+
 const legendsElement = document.getElementById("legends");
 
 const fetchData = async () => {
@@ -37,23 +39,30 @@ const fetchData = async () => {
   }
 };
 
-function addSemesterOption(data) {
-  var selectElement = document.getElementById("semesterFilter");
+function addYearsOption(data) {
+  const filterYear = document.getElementById("yearFilter");
 
-  var uniqueSemesters = [];
-  data.forEach((element) => {
-    if (!uniqueSemesters.includes(element.semester)) {
-      uniqueSemesters.push(element.semester);
-      var newOption = document.createElement("option");
-      newOption.value = element.semester;
-      newOption.text = element.semester;
-      selectElement.appendChild(newOption);
+  var years = [];
+  data.forEach((item) => {
+    if (!years.includes(item.year)) {
+      years.push(item.year);
     }
+  });
+
+  years.sort(function(a, b) {
+    return b - a;
+  });
+
+  years.forEach((year) => {
+    var option = document.createElement("option");
+    option.value = year;
+    option.text = year;
+    filterYear.appendChild(option);
   });
 }
 
-function addLegends(semesters) {
-  for (i = 0; i < semesters.length; i++) {
+function addLegends(years) {
+  for (i = 0; i < years.length; i++) {
     // Create a new div that will contain the assigned color for the label
     var coloredBox = document.createElement("div");
     coloredBox.style.width = "20px"; 
@@ -64,7 +73,7 @@ function addLegends(semesters) {
 
     // Create a new span element for the label
     var labelSpan = document.createElement("span");
-    labelSpan.textContent = semesters[i]; 
+    labelSpan.textContent = years[i]; 
     labelSpan.style.margin = "3px";
 
     // Create a container div to hold the box and label
@@ -81,20 +90,20 @@ function addLegends(semesters) {
 const initializeChart = async () => {
   data = await fetchData();
 
-  addSemesterOption(data);
+  addYearsOption(data);
 
   var scoreFilter = document.getElementById("scoreFilter");
-  var semesterFilter = document.getElementById("semesterFilter");
+  var yearFilter = document.getElementById("yearFilter");
   var avgCtx = document.getElementById("scoreGraph").getContext("2d");
   var scoreChart;
 
-  const filterDataBySemester = (data, semesters) => {
-    if (semesters.includes("allSemesters")) return data;
-    return data.filter((item) => semesters.includes(item.semester));
+  const filterDataByYears = (data, years) => {
+    if (years.includes("allYears")) return data;
+    return data.filter((item) => years.includes(item.year));
   };
 
-  const updateChart = (selectedSemesters, topScores) => {
-    var filteredData = filterDataBySemester(data, selectedSemesters);
+  const updateChart = (selectedYears, topScores) => {
+    var filteredData = filterDataByYears(data, selectedYears);
 
     filteredData.sort(function (a, b) {
       return b.score - a.score;
@@ -106,22 +115,22 @@ const initializeChart = async () => {
 
     var usernames = filteredData.map((item) => item.publicName);
     var scores = filteredData.map((item) => item.score);
-    var semesters = filteredData.map((item) => item.semester);
-    var lastDates = filteredData.map((item) => item.lastDate);
+    var years = filteredData.map((item) => item.year);
+    var lastUpdates = filteredData.map((item) => item.last_update);
 
     var semesterColors = [];
 
-    var uniqueSemesters = new Set(semesters);
-    var uniqueSemestersArray = Array.from(uniqueSemesters);
-    var numOfSemesters = uniqueSemesters.size;
+    var uniqueYears = new Set(years);
+    var uniqueYearsArray = Array.from(uniqueYears);
+    var numOfYears = uniqueYears.size;
 
     legendsElement.innerHTML = "";
 
-    addLegends(uniqueSemestersArray);
+    addLegends(uniqueYearsArray);
 
-    semesters.forEach((semester) => {
-      for (i = 0; i < numOfSemesters; i++) {
-        if (semester == uniqueSemestersArray[i]) {
+    years.forEach((semester) => {
+      for (i = 0; i < numOfYears; i++) {
+        if (semester == uniqueYearsArray[i]) {
           semesterColors.push(colors[i]);
         }
       }
@@ -164,27 +173,27 @@ const initializeChart = async () => {
               label: function (context) {
                 const dataIndex = context.dataIndex;
                 const score = scores[dataIndex];
-                const lastdate = lastDates[dataIndex];
+                const lastdate = lastUpdates[dataIndex];
                 return ["Score: " + score, "Updated at: " + lastdate];
               },
             },
           },
           legend: {
             display: false,
-          },
+          }
         },
       },
     });
   };
 
-  updateChart(semesterFilter.value, scoreFilter.value);
+  updateChart(yearFilter.value, scoreFilter.value);
 
   scoreFilter.addEventListener("change", function () {
-    updateChart(semesterFilter.value, scoreFilter.value);
+    updateChart(yearFilter.value, scoreFilter.value);
   });
 
-  semesterFilter.addEventListener("change", function () {
-    const selectedOptions = Array.from(semesterFilter.selectedOptions).map(
+  yearFilter.addEventListener("change", function () {
+    const selectedOptions = Array.from(yearFilter.selectedOptions).map(
       (option) => option.value
     );
     updateChart(selectedOptions, scoreFilter.value);

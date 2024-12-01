@@ -2,22 +2,28 @@
 
     include 'db.php';
 
-    $headers = getallheaders();
+    // $headers = getallheaders();
 
-    if(empty($headers["API_KEY"])) {
-        echo "Missing API KEY";
-        die();
-    }
+    // if(empty($headers["API_KEY"])) {
+    //     echo "Missing API KEY";
+    //     die();
+    // }
 
     if ($_SERVER['REQUEST_METHOD'] === 'PUT') {
 
-        $hashedPassword = '$2y$10$zaPWM9gUFwLRuU.qDVpw3ugl3QWHATz/SZc6jMIIlstjw/JPJnOQu'; // Store this in an environment variable ?
-        if(!password_verify($headers["API_KEY"], $hashedPassword)) {
+        $data = file_get_contents("php://input");
+        $putData = json_decode($data, true);
+    
+        $hashedPassword = env('PASSWORD');
+    
+        if(!isset($putData["API_KEY"])){
+            echo "Missing API KEY";
+            die();
+        }
+        if (!password_verify($putData["API_KEY"], $hashedPassword)) {
             echo "Invalid API KEY";
             die();
         }
-        $data = file_get_contents("php://input");
-        $putData = json_decode($data, true);
 
         $student = [];
 
@@ -40,7 +46,7 @@
                 $currentScore = $student['score'];
 
                 if ($score > $currentScore) {
-                    $updateQuery = "UPDATE students SET score = ?, lastDate = CURRENT_TIMESTAMP() WHERE publicName = ?";
+                    $updateQuery = "UPDATE students SET score = ?, last_update = CURRENT_TIMESTAMP() WHERE publicName = ?";
                     $updateStmt = $conn->prepare($updateQuery);
                     $updateStmt->bind_param('ds', $score, $publicName);
 
@@ -58,6 +64,17 @@
                 }
             } else {
                 echo "Student not on record\n";
+                $insertQuery = "INSERT students (publicName, score) VALUES(?, ?)";
+                $insertStmt = $conn->prepare($insertQuery);
+                $insertStmt->bind_param('sd', $publicName, $score);
+
+                if ($insertStmt->execute()) {
+                    echo "$publicName record inserted\n";
+                } else {
+                    echo "Error updating the score: " . $insertStmt->error;
+                }
+
+                $insertStmt->close();
             }
 
             $stmt->close();

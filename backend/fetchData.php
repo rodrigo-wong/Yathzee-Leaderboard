@@ -4,7 +4,7 @@
     if($_SERVER['REQUEST_METHOD'] !== 'GET'){
         die();
     } else {
-        $query = "SELECT publicName, score, semester, lastDate FROM students";
+        $query = "SELECT publicName, score, year, last_update FROM students";
         $result = $conn->query($query);
 
         if ($result) {

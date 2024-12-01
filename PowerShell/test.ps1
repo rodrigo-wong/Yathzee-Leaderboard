@@ -48,12 +48,12 @@ else {
 
     $headers = @{
          'Content-Type' = 'application/json'
-         'API_KEY' = 'BotSteve@2023' # Store this in an environment variable ?
     }
 
     $body = @{
         "publicName" = $dataKeyValuePairs["User"]
         "score" = $dataKeyValuePairs["Average Score"]
+        'API_KEY' = 'BotSteve@2023' # Store this in an environment variable ?
     } | ConvertTo-Json
 
     $response = Invoke-RestMethod -Uri $url -Method Put -Body $body -Headers $headers
